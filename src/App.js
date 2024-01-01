@@ -1,9 +1,17 @@
-
+import { BrowserRouter,Routes,Route } from "react-router-dom";
+import Home from "./Pages/Home"
+import Login from "./Pages/Login"
+import Register from "./Pages/Register"
 function App() {
   return (
-    // the following className can access attruibute of tail wind like h screen,bg and flex
-    <div className="h-screen bg-blue-400 flex justify-center items-center" >  
-      <h1 className="text-3xl text-white"> BUDDY CONNECT  </h1>
+    <div>
+      <BrowserRouter>
+      <Routes> 
+          <Route path="/" element={<Home/>}/>
+          <Route path="/Login" element={<Login/>}/>
+          <Route path="/Register" element={<Register/>}/>
+      </Routes>
+      </BrowserRouter>
     </div>
   );
 }
