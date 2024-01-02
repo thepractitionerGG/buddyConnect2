@@ -4,9 +4,13 @@
 Client/node_modules
 Client/.pnp
 Client/.pnp.js
+/node_modules
+/.pnp
+/.pnp.js
 
 # testing
 Client/coverage
+/coverage
 
 # production
 Client/build
