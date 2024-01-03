@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { RegisterUser } from "../../apicalls/users";
+
 
 // the follwing is a react function that we created and inside thi function we are using a hook function called "useState"
 // useState get the values of the component under it, in our current case we need 3 values as its a register functon 
@@ -13,7 +15,16 @@ function Register() {
 
     })
  const registerUser = async  ()=>{
-        console.log(user);
+        try {
+            const response = await RegisterUser(user);
+            if(response.success){
+                alert(response.message)
+            }else{
+                alert(response.message)
+            }
+        } catch (error) {
+            alert(error.message);
+        }
     }
     // below is the return fun which has heading input filed and a button deatils, we are also ref these values to the values in our
     // hook function example value = user.email 
