@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { RegisterUser } from "../../apicalls/users";
+import toast from "react-hot-toast";
 
 
 // the follwing is a react function that we created and inside thi function we are using a hook function called "useState"
@@ -13,17 +14,18 @@ function Register() {
         email: '',
         password: '',
 
-    })
- const registerUser = async  ()=>{
+    });
+
+    const registerUser = async () => {
         try {
             const response = await RegisterUser(user);
-            if(response.success){
-                alert(response.message)
-            }else{
-                alert(response.message)
+            if (response.success) {
+                toast.success(response.success)
+            } else {
+                toast.error(response.message)
             }
         } catch (error) {
-            alert(error.message);
+            toast.error(error.message);
         }
     }
     // below is the return fun which has heading input filed and a button deatils, we are also ref these values to the values in our
@@ -55,12 +57,12 @@ function Register() {
                     placeholder="Enter Your Password"
                 />
                 <button className="contained-btn" onClick={registerUser}>Register</button>
-               {/* here the Link keyword is used and it will take us to the login page */}
-               <Link
-               to="/login"
-               className="underline">
-                Already have an account? Login here
-               </Link>
+                {/* here the Link keyword is used and it will take us to the login page */}
+                <Link
+                    to="/login"
+                    className="underline">
+                    Already have an account? Login here
+                </Link>
             </div>
         </div>
     )

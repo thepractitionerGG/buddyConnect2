@@ -1,4 +1,4 @@
-const User = require("../models/userModel");
+const UserModel = require("../models/userModel");
 const router = require("express").Router();
 const bycrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 router.post("/register", async (req, res) => {
     try {
         //check if user alreday exist
-        const user = await User.findOne({ email: req.body.email });
+        const user = await UserModel.findOne({ email: req.body.email });
         if (user) {
             return res.status(200).send({
                 success: false,
@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
         // create new user
         const hashedPassword = await bycrypt.hash(req.body.password, 10);
         req.body.password = hashedPassword;
-        const newUser = new User(req.body);
+        const newUser = new UserModel(req.body);
         await newUser.save();
         res.status(200).send({
             success: true,
@@ -38,13 +38,13 @@ router.post("/register", async (req, res) => {
 
 // user login
 
-router.post("./login", async (req, res) => {
+router.post("/login", async (req, res) => {
     try {
         //check if user exist 
-        const user = await user.findOne({
+        const user = await UserModel.findOne({
             email: req.body.email
         });
-
+      
         if (!user) {
             return res.send({
                 success: false,
@@ -52,7 +52,7 @@ router.post("./login", async (req, res) => {
             });
         }
 
-        const validPassword = await bcrypt.compare(req.body.password, user.password);
+        const validPassword = await bycrypt.compare(req.body.password, user.password);
 
         if (!validPassword) {
             return res.send({
@@ -62,8 +62,8 @@ router.post("./login", async (req, res) => {
         }
 
         // create and assign a token
-        const token = jwt.sign({ userid: user_id }, process.env.JWT_SECRET);
-        req.send({
+        const token = jwt.sign({ userid: user._id }, process.env.JWT_SECRET,{expiresIn:"1d",});
+        res.send({
             success: true,
             message: "User logged in successfully",
             data: token
