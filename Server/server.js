@@ -3,7 +3,7 @@ const express = require('express');
 // this comes from a command that i ran in the terminal and being reuired here is the working after 
 // some modules related to it were downloaded
 require('dotenv').config();
-
+//TESTING
 const app = express();
 // db config file in the config folder
 const dbconfig=require("./Config/dbconfig")
