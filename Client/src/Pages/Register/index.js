@@ -33,6 +33,7 @@ function Register() {
     // onchange function is called when the value in the text field is changed, and on onChange we are calling setUser which
     // sets the value of the user.name or user.email respective to the field 
 
+
     return (
         <div className="h-screen bg-primary flex items-center justify-center">
             <div className="bg-white shadow-md p-5 flex flex-col gap-5 w96">
@@ -42,19 +43,19 @@ function Register() {
                     type="text"
                     value={user.name}
                     onChange={(e) => setuser({ ...user, name: e.target.value })}
-                    placeholder="Enter Your Name"
+                    placeholder="Enter Your Name Here"
                 />
                 <input
                     type="text"
                     value={user.email}
                     onChange={(e) => setuser({ ...user, email: e.target.value })}
-                    placeholder="Enter Your Email"
+                    placeholder="Enter Your Email Address"
                 />
                 <input
                     type="password"
                     value={user.password}
                     onChange={(e) => setuser({ ...user, password: e.target.value })}
-                    placeholder="Enter Your Password"
+                    placeholder="Enter Your Password Here"
                 />
                 <button className="contained-btn" onClick={registerUser}>Register</button>
                 {/* here the Link keyword is used and it will take us to the login page */}
