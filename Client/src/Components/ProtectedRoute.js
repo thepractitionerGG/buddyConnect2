@@ -20,13 +20,14 @@ function ProtectedRoute({children}){
                 return true
             }else{
                 toast.error(response.message)
+                localStorage.removeItem("token");
                 navigate('/login')
                 return false
             }
             //return response.success ? true : false 
         } catch (error) {
             navigate('/login')
-        }
+                    }
     }
     useEffect(()=>{
         if(localStorage.getItem('token')){
