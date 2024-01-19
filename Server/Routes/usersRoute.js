@@ -82,12 +82,16 @@ router.post("/login", async (req, res) => {
 
 router.get("/get-current-user",authMiddleware,async(req,res)=>{
     try {
-      const user = await User.findOne({_id: req.body.userid});
-      res.send({
-        success:true,
-        message:"User Feteched Successfully",
-        data:user,
-      });
+        let user = req.body.user
+        if(user){
+            res.send({
+                success:true,
+                message:"User Feteched Successfully",
+                data:user,
+              });
+        }else{
+            throw Error('Not Found')
+        }
     } catch (error) {
         res.send({
             message:error.message,
