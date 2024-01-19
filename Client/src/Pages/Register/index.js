@@ -43,7 +43,7 @@ function Register() {
                     type="text"
                     value={user.name}
                     onChange={(e) => setuser({ ...user, name: e.target.value })}
-                    placeholder="Enter Your Name"
+                    placeholder="Enter Your Name Here"
                 />
                 <input
                     type="text"
@@ -55,7 +55,7 @@ function Register() {
                     type="password"
                     value={user.password}
                     onChange={(e) => setuser({ ...user, password: e.target.value })}
-                    placeholder="Enter Your Password"
+                    placeholder="Enter Your Password Here"
                 />
                 <button className="contained-btn" onClick={registerUser}>Register</button>
                 {/* here the Link keyword is used and it will take us to the login page */}
