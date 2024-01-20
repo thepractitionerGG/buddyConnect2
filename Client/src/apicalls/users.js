@@ -29,3 +29,12 @@ export const GetCurrentUser = async () =>{
 
     }
 }
+
+export const getAllUsers = async ()=>{
+    try {
+        const response = await axiosInstance.get('/api/users/allUsers')
+        return response.data
+    } catch (error) {
+        return error.response.data
+    }
+}

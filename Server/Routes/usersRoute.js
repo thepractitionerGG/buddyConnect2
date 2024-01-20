@@ -100,4 +100,31 @@ router.get("/get-current-user",authMiddleware,async(req,res)=>{
     }
 })
 
+
+//GET All User
+
+router.get('/allUsers' , authMiddleware , async (req , res)=>{
+    try {
+        let currUser =  req.body.user
+        let allUsers =  await UserModel.find({_id:{$ne:currUser._id}})
+        if(allUsers.length>0){
+            return res.status(200).send({
+                success:true,
+                data:allUsers
+            })
+        }else{
+            return res.status(404).send({
+                success:false,
+                message:'No user found'
+            })
+        }
+    } catch (error) {
+        console.log('Error in GetAll Users', error);
+        res.status(500).send({
+            success:false,
+            message:'Some error Occured'
+        })
+    }
+})
+
 module.exports = router;
