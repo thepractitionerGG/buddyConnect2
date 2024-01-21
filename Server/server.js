@@ -1,9 +1,10 @@
 // express is required 
 const express = require('express'); 
+const morgan = require('morgan')// for API Sever Loging
 // this comes from a command that i ran in the terminal and being reuired here is the working after 
 // some modules related to it were downloaded
 require('dotenv').config();
-
+//TESTING
 const app = express();
 // db config file in the config folder
 const dbconfig=require("./Config/dbconfig")
@@ -13,6 +14,7 @@ const port = process.env.PORT || 5000;
 
 const usersRoute=require("./Routes/usersRoute");
 app.use(express.json());
+app.use(morgan('dev'))
 app.use("/api/users",usersRoute);
 
 app.listen(port,()=>console.log(`Server running on port ${port}`))

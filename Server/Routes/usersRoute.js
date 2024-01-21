@@ -82,17 +82,48 @@ router.post("/login", async (req, res) => {
 
 router.get("/get-current-user",authMiddleware,async(req,res)=>{
     try {
-      const user = await User.findOne({_id: req.body.userid});
-      res.send({
-        success:true,
-        message:"User Feteched Successfully",
-        data:user,
-      });
+        let user = req.body.user
+        if(user){
+            res.send({
+                success:true,
+                message:"User Feteched Successfully",
+                data:user,
+              });
+        }else{
+            throw Error('Not Found')
+        }
     } catch (error) {
         res.send({
             message:error.message,
             success:false,
         });
+    }
+})
+
+
+//GET All User
+
+router.get('/allUsers' , authMiddleware , async (req , res)=>{
+    try {
+        let currUser =  req.body.user
+        let allUsers =  await UserModel.find({_id:{$ne:currUser._id}})
+        if(allUsers.length>0){
+            return res.status(200).send({
+                success:true,
+                data:allUsers
+            })
+        }else{
+            return res.status(404).send({
+                success:false,
+                message:'No user found'
+            })
+        }
+    } catch (error) {
+        console.log('Error in GetAll Users', error);
+        res.status(500).send({
+            success:false,
+            message:'Some error Occured'
+        })
     }
 })
 

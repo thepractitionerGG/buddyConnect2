@@ -1,7 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link , useNavigate} from "react-router-dom";
 import { RegisterUser } from "../../apicalls/users";
 import toast from "react-hot-toast";
+import {useDispatch} from 'react-redux'
+import { HideLoader, ShowLoader } from "../../redux/loaderSlice";
 
 
 // the follwing is a react function that we created and inside thi function we are using a hook function called "useState"
@@ -9,22 +11,32 @@ import toast from "react-hot-toast";
 // these are the basics attribute for a register page we can have as many as we want not sure if bool will be available here. 
 // need to find out 
 function Register() {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [user, setuser] = React.useState({
         name: '',
         email: '',
         password: '',
 
     });
+    useEffect(()=>{
+        if(localStorage.getItem("token")){
+          navigate('/')
+        }  
+      },[])
 
     const registerUser = async () => {
         try {
+            dispatch(ShowLoader())
             const response = await RegisterUser(user);
+            dispatch(HideLoader())
             if (response.success) {
                 toast.success(response.success)
             } else {
                 toast.error(response.message)
             }
         } catch (error) {
+            dispatch(HideLoader())
             toast.error(error.message);
         }
     }
