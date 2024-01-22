@@ -13,9 +13,11 @@ const port = process.env.PORT || 5000;
 // a log statement to check if server is running 
 
 const usersRoute=require("./Routes/usersRoute");
+const chatsRoute = require("./Routes/chatsRoute");
 app.use(express.json());
 app.use(morgan('dev'))
 app.use("/api/users",usersRoute);
+app.use("/api/chats", chatsRoute);
 
 app.listen(port,()=>console.log(`Server running on port ${port}`))
 
