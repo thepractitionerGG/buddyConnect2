@@ -48,7 +48,13 @@ const { allUsers, allChats, user } = useSelector(
                             </div>
                             
                             <div onClick={()=>createNewChat(userObj._id)}>
-                              { !allChats.find((chat)=>chat.members.includes(userObj._id))&& (
+                              { // !allChats.some(chat =>chat.members.some(ele => ele._id === userObj._id))
+                              !allChats.find((chat)=>{
+                                for (const ele of chat.members) {
+                                  if (ele._id === userObj._id) return true;
+                                }
+                                return false
+                              })&& (
                                 <button className="border-primary border  text-primary bg-white p-1  rounded gap-1"> 
                                 Create chat
                                 </button>
