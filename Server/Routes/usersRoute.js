@@ -14,7 +14,7 @@ router.post("/register", async (req, res) => {
         if (user) {
             return res.status(200).send({
                 success: false,
-                message: "User Alreday Exist",
+                message: "User ALready Exists",
             });
         }
 
@@ -25,7 +25,7 @@ router.post("/register", async (req, res) => {
         await newUser.save();
         res.status(200).send({
             success: true,
-            message: "New user created successfully",
+            message: "New user created successfully!!",
         });
     }
 
@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
         if (!user) {
             return res.send({
                 success: false,
-                message: "User does not exist"
+                message: "User does not exists!"
             });
         }
 
@@ -86,7 +86,7 @@ router.get("/get-current-user",authMiddleware,async(req,res)=>{
         if(user){
             res.send({
                 success:true,
-                message:"User Feteched Successfully",
+                message:"User Fetched Successfully",
                 data:user,
               });
         }else{
