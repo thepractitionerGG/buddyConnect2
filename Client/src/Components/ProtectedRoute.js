@@ -4,8 +4,9 @@ import { GetCurrentUser, getAllUsers } from '../apicalls/users'
 import toast from "react-hot-toast";
 import {useDispatch , useSelector} from 'react-redux'
 import { HideLoader  , ShowLoader} from '../redux/loaderSlice';
-import { SetAllUser, SetUser } from '../redux/userSlice';
+import { SetAllUser, SetUser,SetAllChats } from '../redux/userSlice';
 import {RiChat1Fill , RiShieldUserLine , RiLogoutCircleRLine} from "@remixicon/react"
+import { GetAllChats } from '../apicalls/chats';
 
 
 function ProtectedRoute({children}){
@@ -18,10 +19,13 @@ function ProtectedRoute({children}){
             dispatch(ShowLoader())
             const response = await GetCurrentUser()
             const allUsers = await getAllUsers()
+            const allChatsResponse = await GetAllChats()
             dispatch(HideLoader())
             if(response.success){
                 dispatch(SetUser(response.data))
                 dispatch(SetAllUser(allUsers.data))
+                dispatch(SetAllChats(allChatsResponse.data))
+                 /* here we load users and data*/
                 // setUser(response.data)
                 return true
             }else{
