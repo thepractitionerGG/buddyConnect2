@@ -44,7 +44,7 @@ function Login() {
                     type="text"
                     value={user.email}
                     onChange={(e) => setuser({ ...user, email: e.target.value })}
-                    placeholder="Enter Your Email"
+                    placeholder="Enter Your Email Address"
                 />
                 <input
                     type="password"
