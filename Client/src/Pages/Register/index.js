@@ -74,7 +74,7 @@ function Register() {
                 <Link
                     to="/login"
                     className="underline">
-                    Already have an account? Login here
+                    Existing User ? Login here
                 </Link>
             </div>
         </div>
