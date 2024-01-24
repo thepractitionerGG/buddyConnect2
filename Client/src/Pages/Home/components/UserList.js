@@ -29,6 +29,7 @@ const { allUsers, allChats, user } = useSelector(
         toast.error(error.message);
       }
 
+      
     };
   return (
         <div className='flex flex-col gap-3 mt-5 lg:w-96 xl:w-96 md:w-60 sm:w-60'>
@@ -63,6 +64,7 @@ const { allUsers, allChats, user } = useSelector(
                         </div>
                     )
                 })
+
 
             }
         </div>
