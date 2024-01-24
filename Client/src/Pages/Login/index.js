@@ -50,14 +50,14 @@ function Login() {
                     type="password"
                     value={user.password}
                     onChange={(e) => setuser({ ...user, password: e.target.value })}
-                    placeholder="Enter Your Password"
+                    placeholder="Enter Your password"
                 />
                 <button className="contained-btn" onClick={loginUser}>Login</button>
                 {/* here the Link keyword is used and it will take us to the login page */}
                 <Link
                     to="/register"
                     className="underline">
-                    New here? Lets get you registered first
+                    New here? Click here to register
                 </Link>
             </div>
         </div>
