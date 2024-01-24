@@ -44,20 +44,20 @@ function Login() {
                     type="text"
                     value={user.email}
                     onChange={(e) => setuser({ ...user, email: e.target.value })}
-                    placeholder="Enter Your Email Address"
+                    placeholder="Provide Your Email Address Here"
                 />
                 <input
                     type="password"
                     value={user.password}
                     onChange={(e) => setuser({ ...user, password: e.target.value })}
-                    placeholder="Enter Your password"
+                    placeholder="Provide Your password here"
                 />
                 <button className="contained-btn" onClick={loginUser}>Login</button>
                 {/* here the Link keyword is used and it will take us to the login page */}
                 <Link
                     to="/register"
                     className="underline">
-                    New here? Click here to register
+                    Are you new here? Click below to register
                 </Link>
             </div>
         </div>
