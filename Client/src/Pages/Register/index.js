@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Link , useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RegisterUser } from "../../apicalls/users";
 import toast from "react-hot-toast";
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { HideLoader, ShowLoader } from "../../redux/loaderSlice";
 
 
@@ -19,11 +19,20 @@ function Register() {
         password: '',
 
     });
-    useEffect(()=>{
-        if(localStorage.getItem("token")){
-          navigate('/')
-        }  
-      },[])
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            navigate('/')
+        }
+    }, [])
+
+    const handleSubmit = () => {
+        if (user.email === '' || user.name === '' || user.password === '')
+            alert('Missing fields. Please check and fill');
+        else if (!(user.email).match(/^\S+@\S+\.\S+$/))
+            alert('Input valid address');
+        else
+            registerUser();
+    }
 
     const registerUser = async () => {
         try {
@@ -69,7 +78,7 @@ function Register() {
                     onChange={(e) => setuser({ ...user, password: e.target.value })}
                     placeholder="Enter a Strong Password"
                 />
-                <button className="contained-btn" onClick={registerUser}>Register</button>
+                <button className="contained-btn" onClick={handleSubmit}>Register</button>
                 {/* here the Link keyword is used and it will take us to the login page */}
                 <Link
                     to="/login"
