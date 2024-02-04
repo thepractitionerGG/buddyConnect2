@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { HideLoader, ShowLoader } from "../../../redux/loaderSlice";
 import { SendMessage, GetMessages } from '../../../apicalls/messages';
 import toast from "react-hot-toast";
+import moment from "moment";
 
 const ChatArea = () => {
   const dispatch = useDispatch();
   const [newMessage, setMessage] = React.useState("");
   const { selectedChat, user } = useSelector(state => state.userReducer);
-  const [messages = [], setMessages] = React.useState("")
+  const [messages, setMessages] = React.useState([])
   const receipentUser = selectedChat.members.find(
     (mem) => mem._id != user._id
   );
@@ -51,6 +52,25 @@ const ChatArea = () => {
     getMessages();
   }, [selectedChat]);
 
+  const getDateInRegualarFormat = (date) => {
+    let result = "";
+
+    // if date is today return time in hh:mm format
+    if (moment(date).isSame(moment(), "day")) {
+      result = moment(date).format("hh:mm");
+    }
+    // if date is yesterday return yesterday and time in hh:mm format
+    else if (moment(date).isSame(moment().subtract(1, "day"), "day")) {
+      result = `Yesterday ${moment(date).format("hh:mm")}`;
+    }
+    // if date is this year return date and time in MMM DD hh:mm format
+    else if (moment(date).isSame(moment(), "year")) {
+      result = moment(date).format("MMM DD hh:mm");
+    }
+
+    return result;
+  };
+
   return (
     <div className="bg-white h-[78vh] border rounded-2xl w-full flex flex-col justify-between p-2">
       <div>
@@ -73,11 +93,17 @@ const ChatArea = () => {
             const isCurrUserSender = message.sender === user._id;
             return <div className={`flex ${isCurrUserSender && 'justify-end'}`}>
               <div className='flex flex-col'>
-                <h1>{message.text}</h1>
-                <h1>{message.createdAt}</h1>
+                <h1 className={`${isCurrUserSender
+                    ? "bg-primary text-white rounded-bl-none"
+                    : "bg-gray-300 text-primary rounded-tr-none"
+                  } p-2 rounded-xl`}>{message.text}</h1>
+                <h1 className="text-gray-500 text-sm">
+                    {getDateInRegualarFormat(message.createdAt)}
+                  </h1>
               </div>
+              
             </div>
-          })};
+          })}
         </div>
       </div>
       <div>
