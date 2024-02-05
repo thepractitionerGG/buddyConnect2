@@ -1,11 +1,10 @@
 const jwt = require("jsonwebtoken");
-const UserModel = require("../models/userModel");
-module.exports=async (req,res,next)=>{
+
+module.exports = (req, res, next) => {
     try {
-        const token =req.headers.authorization.split(" ")[1];
-        const decoded = jwt.verify(token,process.env.JWT_SECRET);
-        const user = await UserModel.findOne({_id:decoded.userid});
-        req.body.user= user
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.body.userId = decoded.userId;
         next();
     } catch (error) {
         res.send({
@@ -13,4 +12,4 @@ module.exports=async (req,res,next)=>{
             success: false,
         });
     }
-}
+};
