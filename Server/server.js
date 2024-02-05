@@ -9,15 +9,17 @@ const app = express();
 // db config file in the config folder
 const dbconfig=require("./Config/dbconfig")
 //port selection online ava or go to local if not
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5003;
 // a log statement to check if server is running 
 
 const usersRoute=require("./Routes/usersRoute");
 const chatsRoute = require("./Routes/chatsRoute");
+const messagesRoute=require("./Routes/messagesRoute");
 app.use(express.json());
-app.use(morgan('dev'))
+app.use(morgan('dev'));
 app.use("/api/users",usersRoute);
 app.use("/api/chats", chatsRoute);
+app.use("/api/messages",messagesRoute);
 
 app.listen(port,()=>console.log(`Server running on port ${port}`))
 
