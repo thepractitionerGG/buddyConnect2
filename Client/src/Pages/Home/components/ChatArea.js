@@ -89,7 +89,7 @@ const ChatArea = () => {
       </div>
       <div>
         <div className='flex flex-col gap-2'>
-          {messages.map((message) => {
+          {messages.map((message) => {/* here we get messages from the message api to update history this line will be replaced by sockets  */
             const isCurrUserSender = message.sender === user._id;
             return <div className={`flex ${isCurrUserSender && 'justify-end'}`}>
               <div className='flex flex-col'>
