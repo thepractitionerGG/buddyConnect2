@@ -25,7 +25,8 @@ router.post('/new-message', async (req, res) => {
 
 router.get('/get-all-messages/:chatId', async (req, res) => {
     try {
-        const messages = await Message.find({ chat: req.params.chatId }).sort({ createdAt: 1 });
+        const messages = await Message.find({ chat: req.params.chatId }).sort({ createdAt: 1 }); 
+        /* sorting in messages assending */
         res.send({
             success: true,
             message: "Messages fetched successfully",
