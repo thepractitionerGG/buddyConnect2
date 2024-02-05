@@ -4,9 +4,9 @@ const app = express();
 const dbConfig = require("./config/dbConfig");
 const port = process.env.PORT || 5003;
 
-const usersRoute = require("./routes/usersRoute");
-const chatsRoute = require("./routes/chatsRoute");
-const messagesRoute = require("./routes/messagesRoute");
+const usersRoute = require("./Routes/usersRoute");
+const chatsRoute = require("./Routes/chatsRoute");
+const messagesRoute = require("./Routes/messagesRoute");
 app.use(
     express.json({
         limit: "50mb",
