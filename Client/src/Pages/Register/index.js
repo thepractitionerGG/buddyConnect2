@@ -27,9 +27,9 @@ function Register() {
 
     const handleSubmit = () => {
         if (user.email === '' || user.name === '' || user.password === '')
-            alert('Missing fields. Please check and fill');
+            toast.error('Missing fields. Please check and fill');
         else if (!(user.email).match(/^\S+@\S+\.\S+$/))
-            alert('Input valid address');
+            toast.error('Input valid address');
         else
             registerUser();
     }
@@ -90,4 +90,4 @@ function Register() {
     )
 }
 
-export default Register
+export default Register;
