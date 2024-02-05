@@ -3,7 +3,6 @@ import { axiosInstance } from ".";
 export const GetAllChats = async () => {
   try {
     const response = await axiosInstance.get("/api/chats/get-all-chats");
-    console.log(response);
     return response.data;
   } catch (error) {
     throw error;

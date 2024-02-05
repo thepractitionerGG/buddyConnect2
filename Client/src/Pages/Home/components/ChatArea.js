@@ -37,7 +37,6 @@ const ChatArea = () => {
     try {
       dispatch(ShowLoader());
       const response = await GetMessages(selectedChat._id);
-      console.log(response.data);
       dispatch(HideLoader());
       if (response.success) {
         setMessages(response.data);
@@ -87,7 +86,7 @@ const ChatArea = () => {
         <hr />
 
       </div>
-      <div>
+      <div className="h-[55vh] overflow-y-scroll p-5">
         <div className='flex flex-col gap-2'>
           {messages.map((message) => {/* here we get messages from the message api to update history this line will be replaced by sockets  */
             const isCurrUserSender = message.sender === user._id;
