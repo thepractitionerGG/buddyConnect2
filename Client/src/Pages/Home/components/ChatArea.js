@@ -319,6 +319,7 @@ function ChatArea({ socket }) {
               sender: user._id,
             });
           }}
+          onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); sendNewMessage("") } }}
         />
         <button
           className="bg-primary text-white py-1 px-5 rounded h-max"
