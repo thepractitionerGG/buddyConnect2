@@ -23,31 +23,33 @@ function ChatArea({ socket }) {
   );
 
   const sendNewMessage = async (image) => {
-    try {
-      const message = {
-        chat: selectedChat._id,
-        sender: user._id,
-        text: newMessage,
-        image,
-      };
-      // send message to server using socket
-      socket.emit("send-message", {
-        ...message,
-        members: selectedChat.members.map((mem) => mem._id),
-        createdAt: moment().format("DD-MM-YYYY hh:mm:ss"),
-        read: false,
-      });
+    if (newMessage && newMessage.trim() || image) {
+      try {
+        const message = {
+          chat: selectedChat._id,
+          sender: user._id,
+          text: newMessage,
+          image,
+        };
+        // send message to server using socket
+        socket.emit("send-message", {
+          ...message,
+          members: selectedChat.members.map((mem) => mem._id),
+          createdAt: moment().format("DD-MM-YYYY hh:mm:ss"),
+          read: false,
+        });
 
-      // send message to server to save in db
-      const response = await SendMessage(message);
+        // send message to server to save in db
+        const response = await SendMessage(message);
 
-      if (response.success) {
-        setNewMessage("");
-        setShowEmojiPicker(false);
+        if (response.success) {
+          setNewMessage("");
+          setShowEmojiPicker(false);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(error.message);
       }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.message);
     }
   };
 
@@ -178,10 +180,12 @@ function ChatArea({ socket }) {
 
   const onUploadImageClick = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader(file);
-    reader.readAsDataURL(file);
-    reader.onloadend = async () => {
-      sendNewMessage(reader.result);
+    if (file) { //only if file is selected
+      const reader = new FileReader(file);
+      reader.readAsDataURL(file);
+      reader.onloadend = async () => {
+        sendNewMessage(reader.result);
+      }
     };
   };
 
