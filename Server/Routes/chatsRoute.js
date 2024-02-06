@@ -99,6 +99,7 @@ router.post("/clear-unread-messages", authMiddleware, async (req, res) => {
 
 router.delete("/delete-chats",authMiddleware,async(req,res)=>{
   try {
+    console.log(req.body)
     let chatid=req.body.chatid
     let retval = await messageModel.deleteMany({
       "chat":chatid

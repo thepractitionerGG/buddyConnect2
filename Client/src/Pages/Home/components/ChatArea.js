@@ -228,7 +228,7 @@ function ChatArea({ socket }) {
             </div>
           )}
           <h1 className="uppercase">{receipentUser.name}</h1>
-          <button className="bg-primary text-white py-1 px-5 rounded h-max justify-end" onClick={()=>deleteChat(user._id)}>
+          <button className="bg-primary text-white py-1 px-5 rounded h-max justify-end" onClick={()=>deleteChat(selectedChat._id)}>
             Clear Chat
             </button>
         </div>
