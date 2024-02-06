@@ -23,7 +23,7 @@ function ChatArea({ socket }) {
   );
 
   const sendNewMessage = async (image) => {
-    if (newMessage && newMessage.trim()) {
+    if (newMessage && newMessage.trim() || image) {
       try {
         const message = {
           chat: selectedChat._id,
@@ -180,10 +180,12 @@ function ChatArea({ socket }) {
 
   const onUploadImageClick = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader(file);
-    reader.readAsDataURL(file);
-    reader.onloadend = async () => {
-      sendNewMessage(reader.result);
+    if (file) { //only if file is selected
+      const reader = new FileReader(file);
+      reader.readAsDataURL(file);
+      reader.onloadend = async () => {
+        sendNewMessage(reader.result);
+      }
     };
   };
 
