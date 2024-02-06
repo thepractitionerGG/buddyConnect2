@@ -97,14 +97,14 @@ router.post("/clear-unread-messages", authMiddleware, async (req, res) => {
   }
 });
 
-router.delete("/delete-chats",authMiddleware,async(req,res)=>{
+router.delete("/delete-chats/:chatid",authMiddleware,async(req,res)=>{
   try {
-    console.log(req.body)
-    let chatid=req.body.chatid
+    console.log(req.params)
+    let chatid=req.params.chatid
     let retval = await messageModel.deleteMany({
       "chat":chatid
     })
-    return res.status(200).json({retval})
+    return res.status(200).json({"msg":retval})
   } catch (error) {
     console.log(error)
     return res.status(500).json({"message":"Something went wrong"})

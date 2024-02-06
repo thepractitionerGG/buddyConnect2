@@ -58,12 +58,11 @@ function ChatArea({ socket }) {
       dispatch(ShowLoader());
       const response = await DeleteChats(chatId);
       dispatch(HideLoader());
-      if (response.retval.ok === 1) {
+      if (response.msg.deletedCount>0) {
         toast.success("Chat deleted successfully");
-        // Assuming you have a function to update the state of chats after deletion
-        // For example, if `allChats` is your state containing all chats, you might want to remove the deleted chat from it
-        const updatedChats = allChats.filter(chat => chat._id !== chatId);
-        dispatch(SetAllChats(updatedChats));
+        
+        const updatedChats = messages.filter(msg => msg.chat !== chatId);        
+        setMessages(updatedChats)
       } else {
         toast.error("Failed to delete chat");
       }

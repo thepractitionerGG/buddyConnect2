@@ -34,9 +34,8 @@ export const ClearChatMessages = async (chatId) => {
 export const DeleteChats = async (chatid) => {
   try {
     console.log("ASD",chatid)
-    const response = await axiosInstance.delete("/api/chats/delete-chats", {
-       chatid: chatid,
-    });
+    const response = await axiosInstance.delete(`/api/chats/delete-chats/${chatid}`);
+    console.log(response)
     return response.data;
   } catch (error) {
     throw error;
