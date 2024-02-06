@@ -23,7 +23,7 @@ const io = require("socket.io")(server, {
 });
 
 // check the connection of socket from client
-let onlineUsers = [];
+let onlineUsers = [];  // server side commection
 io.on("connection", (socket) => {
     // socket events will be here
     socket.on("join-room", (userId) => {

@@ -6,11 +6,15 @@ import { GetAllChats } from "../apicalls/chats";
 import { GetAllUsers, GetCurrentUser } from "../apicalls/users";
 import { HideLoader, ShowLoader } from "../redux/loaderSlice";
 import { SetAllUsers, SetUser, SetAllChats } from "../redux/userSlice";
+import { io } from "socket.io-client";
+
+const socket = io('http://localhost:5003');
 
 function ProtectedRoute({ children }) {
   const { user } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [onlineUsers, setOnlineUsers] = React.useState([]);
   const getCurrentUser = async () => {
     try {
       dispatch(ShowLoader());
@@ -42,6 +46,16 @@ function ProtectedRoute({ children }) {
       navigate("/login");
     }
   }, []);
+
+  const logoutHandler=() => {
+    if (user) {
+      socket.emit("went-offline", user._id);
+
+      socket.on("online-users-updated", (users) => {
+          setOnlineUsers(users);
+      });
+  }
+  };
 
   return (
     <div className="h-screen w-screen bg-gray-100 p-2">
@@ -80,6 +94,7 @@ function ProtectedRoute({ children }) {
             class="ri-logout-circle-r-line ml-5 text-xl cursor-pointer text-primary"
             onClick={() => {
               localStorage.removeItem("token");
+              logoutHandler();
               navigate("/login");
             }}
           ></i>
