@@ -3,6 +3,7 @@ const Chat = require("../models/chatModel");
 const Message = require("../models/messageModel");
 const authMiddleware = require("../middlewares/authMiddleware");
 const messageModel = require("../models/messageModel");
+const chatModel = require("../models/chatModel");
 // create a new chat
 router.post("/create-new-chat", authMiddleware, async (req, res) => {
   try {
@@ -104,6 +105,7 @@ router.delete("/delete-chats/:chatid",authMiddleware,async(req,res)=>{
     let retval = await messageModel.deleteMany({
       "chat":chatid
     })
+    await chatModel.updateOne({"_id":chatid},{$set:{"unreadMessages":0}})
     return res.status(200).json({"msg":retval})
   } catch (error) {
     console.log(error)

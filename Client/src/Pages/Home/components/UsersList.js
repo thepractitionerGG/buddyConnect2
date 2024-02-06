@@ -107,9 +107,11 @@ function UsersList({ searchKey, socket, onlineUsers }) {
   };
 
   const getUnreadMessages = (userObj) => {
+    console.log(userObj)
     const chat = allChats.find((chat) =>
       chat.members.map((mem) => mem._id).includes(userObj._id)
     );
+    console.log(chat)
     if (
       chat &&
       chat?.unreadMessages &&
@@ -169,7 +171,7 @@ function UsersList({ searchKey, socket, onlineUsers }) {
                 ${getIsSelctedChatOrNot(userObj) && "border-primary border-2"}
             `}
             key={userObj._id}
-            onClick={() => openChat(userObj._id)}
+            onClick={() => {openChat(userObj._id)}}
           >
             <div className="flex gap-5 items-center">
               {userObj.profilePic && (

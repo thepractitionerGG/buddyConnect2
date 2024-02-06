@@ -8,6 +8,7 @@ import moment from "moment";
 import { SetAllChats } from "../../../redux/userSlice";
 import store from "../../../redux/store";
 import EmojiPicker from "emoji-picker-react";
+import UsersList from "./UsersList";
 
 function ChatArea({ socket }) {
   const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
@@ -45,6 +46,7 @@ function ChatArea({ socket }) {
         if (response.success) {
           setNewMessage("");
           setShowEmojiPicker(false);
+          getMessages();
         }
       } catch (error) {
         console.log(error);
@@ -63,6 +65,7 @@ function ChatArea({ socket }) {
         
         const updatedChats = messages.filter(msg => msg.chat !== chatId);        
         setMessages(updatedChats)
+        window.location.reload();
       } else {
         toast.error("Failed to delete chat");
       }
@@ -73,14 +76,14 @@ function ChatArea({ socket }) {
   };
   const getMessages = async () => {
     try {
-      dispatch(ShowLoader());
+      //dispatch(ShowLoader());
       const response = await GetMessages(selectedChat._id);
-      dispatch(HideLoader());
+      //dispatch(HideLoader());
       if (response.success) {
         setMessages(response.data);
       }
     } catch (error) {
-      dispatch(HideLoader());
+      //dispatch(HideLoader());
       toast.error(error.message);
     }
   };
@@ -146,6 +149,7 @@ function ChatArea({ socket }) {
       ) {
         clearUnreadMessages();
       }
+      getMessages();
     });
 
     // clear unread messages from server using socket
@@ -265,17 +269,17 @@ function ChatArea({ socket }) {
                 </div>
                 {isCurrentUserIsSender && message.read && (
                   <div className="p-2">
-                    {receipentUser.profilePic && (
+                    {user.profilePic && (
                       <img
-                        src={receipentUser.profilePic}
+                        src={user.profilePic}
                         alt="profile pic"
                         className="w-4 h-4 rounded-full"
                       />
                     )}
-                    {!receipentUser.profilePic && (
+                    {!user.profilePic && (
                       <div className="bg-gray-400 rounded-full h-4 w-4 flex items-center justify-center relative">
                         <h1 className="uppercase text-sm font-semibold text-white">
-                          {receipentUser.name[0]}
+                          {user.name[0]}
                         </h1>
                       </div>
                     )}
