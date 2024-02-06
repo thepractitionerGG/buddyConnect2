@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetMessages, SendMessage } from "../../../apicalls/messages";
-import { ClearChatMessages } from "../../../apicalls/chats";
+import { ClearChatMessages,DeleteChats } from "../../../apicalls/chats";
 import { HideLoader, ShowLoader } from "../../../redux/loaderSlice";
 import toast from "react-hot-toast";
 import moment from "moment";
@@ -53,6 +53,25 @@ function ChatArea({ socket }) {
     }
   };
 
+  const deleteChat = async (chatId) => {
+    try {
+      dispatch(ShowLoader());
+      const response = await DeleteChats(chatId);
+      dispatch(HideLoader());
+      if (response.retval.ok === 1) {
+        toast.success("Chat deleted successfully");
+        // Assuming you have a function to update the state of chats after deletion
+        // For example, if `allChats` is your state containing all chats, you might want to remove the deleted chat from it
+        const updatedChats = allChats.filter(chat => chat._id !== chatId);
+        dispatch(SetAllChats(updatedChats));
+      } else {
+        toast.error("Failed to delete chat");
+      }
+    } catch (error) {
+      dispatch(HideLoader());
+      toast.error("Error deleting chat");
+    }
+  };
   const getMessages = async () => {
     try {
       dispatch(ShowLoader());
@@ -209,6 +228,9 @@ function ChatArea({ socket }) {
             </div>
           )}
           <h1 className="uppercase">{receipentUser.name}</h1>
+          <button className="bg-primary text-white py-1 px-5 rounded h-max justify-end" onClick={()=>deleteChat(user._id)}>
+            Clear Chat
+            </button>
         </div>
         <hr />
       </div>

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Chat = require("../models/chatModel");
 const Message = require("../models/messageModel");
 const authMiddleware = require("../middlewares/authMiddleware");
-
+const messageModel = require("../models/messageModel");
 // create a new chat
 router.post("/create-new-chat", authMiddleware, async (req, res) => {
   try {
@@ -96,5 +96,18 @@ router.post("/clear-unread-messages", authMiddleware, async (req, res) => {
     });
   }
 });
+
+router.delete("/delete-chats",authMiddleware,async(req,res)=>{
+  try {
+    let chatid=req.body.chatid
+    let retval = await messageModel.deleteMany({
+      "chat":chatid
+    })
+    return res.status(200).json({retval})
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({"message":"Something went wrong"})
+  }
+})
 
 module.exports = router;
