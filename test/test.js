@@ -32,7 +32,7 @@ describe("Get all users", async function () {
                 'authorization': `Bearer ${token}`
             }
         }, function (error, response, body) {
-            if (response.statusCode == 200) {
+            if (response.statusCode) {
                 expect(response.statusCode).to.equal(200);
                 body = JSON.parse(body)
                 expect(body).to.have.property('message').eql('Users fetched successfully');
@@ -47,7 +47,7 @@ describe("Get all users", async function () {
                 'authorization': `Bearer ${token}`
             }
         }, function (error, response, body) {
-            if (response.statusCode == 200) {
+            if (response.statusCode) {
                 expect(response.statusCode).to.equal(200);
                 body = JSON.parse(body)
                 expect(body.data).to.have.property('name').eql('vikram');
@@ -62,10 +62,26 @@ describe("Get all users", async function () {
                 'authorization': `Bearer ${token}`
             }
         }, function (error, response, body) {
-            if (response.statusCode == 200) {
+            if (response.statusCode) {
                 expect(response.statusCode).to.equal(200);
                 body = JSON.parse(body)
                 expect(body).to.have.property('message').eql('Chats fetched successfully');
+            }
+            done();
+        });
+    });
+
+    it("Get all messages", function (done) {
+        request.get({
+            url: `http://localhost:5003/api/messages/get-all-messages/65c367e3191b90d256ba90ed`,
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        }, function (error, response, body) {
+            if (response.statusCode) {
+                expect(response.statusCode).to.equal(200);
+                body = JSON.parse(body)
+                expect(body).to.have.property('message').eql('Messages fetched successfully');
             }
             done();
         });
