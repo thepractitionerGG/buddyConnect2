@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetMessages, SendMessage } from "../../../apicalls/messages";
-import { ClearChatMessages } from "../../../apicalls/chats";
+import { ClearChatMessages,DeleteChats } from "../../../apicalls/chats";
 import { HideLoader, ShowLoader } from "../../../redux/loaderSlice";
 import toast from "react-hot-toast";
 import moment from "moment";
 import { SetAllChats } from "../../../redux/userSlice";
 import store from "../../../redux/store";
 import EmojiPicker from "emoji-picker-react";
+import UsersList from "./UsersList";
 
 function ChatArea({ socket }) {
   const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
@@ -45,6 +46,7 @@ function ChatArea({ socket }) {
         if (response.success) {
           setNewMessage("");
           setShowEmojiPicker(false);
+          getMessages();
         }
       } catch (error) {
         console.log(error);
@@ -53,16 +55,35 @@ function ChatArea({ socket }) {
     }
   };
 
-  const getMessages = async () => {
+  const deleteChat = async (chatId) => {
     try {
       dispatch(ShowLoader());
-      const response = await GetMessages(selectedChat._id);
+      const response = await DeleteChats(chatId);
       dispatch(HideLoader());
+      if (response.msg.deletedCount>0) {
+        toast.success("Chat deleted successfully");
+        
+        const updatedChats = messages.filter(msg => msg.chat !== chatId);        
+        setMessages(updatedChats)
+        window.location.reload();
+      } else {
+        toast.error("Failed to delete chat");
+      }
+    } catch (error) {
+      dispatch(HideLoader());
+      toast.error("Error deleting chat");
+    }
+  };
+  const getMessages = async () => {
+    try {
+      //dispatch(ShowLoader());
+      const response = await GetMessages(selectedChat._id);
+      //dispatch(HideLoader());
       if (response.success) {
         setMessages(response.data);
       }
     } catch (error) {
-      dispatch(HideLoader());
+      //dispatch(HideLoader());
       toast.error(error.message);
     }
   };
@@ -128,6 +149,7 @@ function ChatArea({ socket }) {
       ) {
         clearUnreadMessages();
       }
+      getMessages();
     });
 
     // clear unread messages from server using socket
@@ -209,6 +231,9 @@ function ChatArea({ socket }) {
             </div>
           )}
           <h1 className="uppercase">{receipentUser.name}</h1>
+          <button className="bg-primary text-white py-1 px-5 rounded h-max justify-end" onClick={()=>deleteChat(selectedChat._id)}>
+            Clear Chat
+            </button>
         </div>
         <hr />
       </div>
@@ -244,17 +269,17 @@ function ChatArea({ socket }) {
                 </div>
                 {isCurrentUserIsSender && message.read && (
                   <div className="p-2">
-                    {receipentUser.profilePic && (
+                    {user.profilePic && (
                       <img
-                        src={receipentUser.profilePic}
+                        src={user.profilePic}
                         alt="profile pic"
                         className="w-4 h-4 rounded-full"
                       />
                     )}
-                    {!receipentUser.profilePic && (
+                    {!user.profilePic && (
                       <div className="bg-gray-400 rounded-full h-4 w-4 flex items-center justify-center relative">
                         <h1 className="uppercase text-sm font-semibold text-white">
-                          {receipentUser.name[0]}
+                          {user.name[0]}
                         </h1>
                       </div>
                     )}
