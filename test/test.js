@@ -16,8 +16,8 @@ describe("Get all users", async function () {
         request.post({
             url: 'http://localhost:3000/api/users/login',
             json: {
-                email: 'a@.com',
-                password: 'a'
+                email: 'vikram@gmail.com',
+                password: '123'
             }
         }, function (error, response, body) {
             token = body.data;
@@ -50,7 +50,7 @@ describe("Get all users", async function () {
             if (response.statusCode == 200) {
                 expect(response.statusCode).to.equal(200);
                 body = JSON.parse(body)
-                expect(body.data).to.have.property('name').eql('a');
+                expect(body.data).to.have.property('name').eql('vikram');
             }
             done();
         });
