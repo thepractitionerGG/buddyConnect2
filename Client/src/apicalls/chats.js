@@ -10,12 +10,34 @@ export const GetAllChats = async () => {
 };
 
 export const CreateNewChat = async (members) => {
-    try {
-      const response = await axiosInstance.post("/api/chats/create-new-chat", {
-        members,
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
+  try {
+    const response = await axiosInstance.post("/api/chats/create-new-chat", {
+      members,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const ClearChatMessages = async (chatId) => {
+  try {
+    const response = await axiosInstance.post("/api/chats/clear-unread-messages", {
+      chat: chatId,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const DeleteChats = async (chatid) => {
+  try {
+    console.log("ASD",chatid)
+    const response = await axiosInstance.delete(`/api/chats/delete-chats/${chatid}`);
+    console.log(response)
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
